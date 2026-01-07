@@ -1,0 +1,102 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+header {
+    background: #2c3e50;
+    color: #fff;
+    padding: 0;
+    text-align: center;
+    position: relative;
+}
+
+header img.logo {
+    width: 100%;
+    display: block;
+    height: auto;
+    margin: 0;
+}
+
+header h1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 20px;
+    background: transparent;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5); /* Helps visibility on light parts of the logo */
+    pointer-events: none;
+}
+
+nav {
+    background: #34495e;
+    padding: 0.5rem;
+    text-align: center;
+    position: sticky;
+    top: 0;
+}
+
+nav a {
+    color: #ecf0f1;
+    margin: 0 15px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav a:hover {
+    color: #3498db;
+}
+
+/* API Error Overlay */
+.api-error-overlay {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #e74c3c;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 5px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    z-index: 1000;
+    max-width: 300px;
+    font-size: 0.9rem;
+    animation: slideIn 0.3s ease-out;
+}
+
+.api-error-overlay .close-btn {
+    float: right;
+    cursor: pointer;
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+main {
+    padding: 2rem;
+    max-width: 1000px;
+    margin: 20px auto;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    min-height: 60vh;
+}
+
+footer {
+    text-align: center;
+    padding: 2rem;
+    color: #777;
+    font-size: 0.9rem;
+}
+
+h1, h2 {
+    color: #2c3e50;
+}

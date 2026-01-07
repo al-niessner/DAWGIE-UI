@@ -1,0 +1,59 @@
+
+/* Home Page Layout */
+.home-container {
+    display: flex;
+    gap: 20px;
+}
+
+.home-content {
+    flex: 0 0 67%;
+}
+
+.home-sidebar {
+    flex: 0 0 33%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.sidebar-section {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.sidebar-section h3 {
+    margin-top: 0;
+    font-size: 1.1rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+.stat-item span:first-child {
+    font-weight: bold;
+    display: block;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.stat-item span:last-child {
+    font-size: 1.2rem;
+    color: #2c3e50;
+}
+
+.log-item {
+    font-size: 0.85rem;
+    padding: 5px 0;
+    border-bottom: 1px dotted #ccc;
+}
+
+.log-item:last-child {
+    border-bottom: none;
+}
