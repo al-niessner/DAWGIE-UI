@@ -1,0 +1,44 @@
+/* Logs Page Styles */
+.logs-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #ecf0f1;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.filter-group label {
+    margin-right: 15px;
+    font-weight: bold;
+}
+
+.countdown-timer {
+    position: absolute;
+    top: -10px;
+    right: 10px;
+    background: #3498db;
+    color: white;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+#log-display {
+    font-family: 'Courier New', Courier, monospace;
+    background: #2c3e50;
+    color: #ecf0f1;
+    padding: 15px;
+    border-radius: 4px;
+    overflow-y: auto;
+    max-height: 600px;
+    line-height: 1.4;
+}
+
+.log-entry {
+    margin-bottom: 4px;
+    border-bottom: 1px solid #34495e;
+}

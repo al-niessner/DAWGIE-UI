@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <title>DAWGIE UI: About</title>
     <link rel="stylesheet" href="../stylesheets/base.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="../javascript/common.js" defer></script>
+    <script src="../javascript/about.js" defer></script>
 </head>
 <body>
     <header>
@@ -21,10 +23,14 @@
         <a href="../state/index.html">State</a>
         <a href="../schedule/index.html">Schedule</a>
     </nav>
-    <main>
-        <h2>System Information</h2>
-        <p>This interface provides a comprehensive view of the DAWGIE pipeline components.</p>
+    <main id="about-content">
+        <p>Loading about content...</p>
     </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadMarkdown('../content/about.md', 'about-content');
+        });
+    </script>
     <footer>&copy; 2023 DAWGIE-UI Project</footer>
 </body>
 </html>

@@ -1,0 +1,50 @@
+    /* State Page Layout */
+.state-container {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+.state-svg-container {
+    flex: 1;
+    border: 1px solid #eee;
+    padding: 10px;
+}
+
+.state-svg-container svg {
+    width: 100%;
+    height: auto;
+}
+
+.state-table-container {
+    flex: 1;
+}
+
+.state-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.state-table td {
+    padding: 12px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.state-table tr.highlight {
+    background-color: #f1c40f;
+}
+
+/* SVG State Classes */
+.svg-state-node { cursor: pointer; }
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+
+.blink {
+    animation: blink 0.5s infinite;
+}
+
+/* Gradient Definitions for SVG will be added dynamically via JS */

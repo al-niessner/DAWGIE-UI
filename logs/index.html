@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <title>DAWGIE UI: Logs</title>
     <link rel="stylesheet" href="../stylesheets/base.css">
+    <link rel="stylesheet" href="../stylesheets/logs.css">
     <script src="../javascript/common.js" defer></script>
+    <script src="../javascript/logs.js" defer></script>
 </head>
 <body>
     <header>
@@ -22,8 +24,30 @@
         <a href="../schedule/index.html">Schedule</a>
     </nav>
     <main>
-        <h2>Recent Activity</h2>
-        <p>View real-time and historical system logs here.</p>
+        <div class="logs-controls">
+            <div class="countdown-timer">Refresh in: <span id="timer-val">5</span>s</div>
+            <div class="filter-group">
+                <label><input type="checkbox" class="log-level" value="debug"> Debug</label>
+                <label><input type="checkbox" class="log-level" value="info"> Info</label>
+                <label><input type="checkbox" class="log-level" value="warn" checked> Warn</label>
+                <label><input type="checkbox" class="log-level" value="error" checked> Error</label>
+                <label><input type="checkbox" class="log-level" value="critical" checked> Critical</label>
+            </div>
+            <div class="count-group">
+                <label>Show: 
+                    <select id="log-count">
+                        <option value="10">10</option>
+                        <option value="20" selected>20</option>
+                        <option value="40">40</option>
+                        <option value="80">80</option>
+                        <option value="160">160</option>
+                    </select>
+                </label>
+            </div>
+        </div>
+        <div id="log-display">
+            <!-- Log messages will appear here -->
+        </div>
     </main>
     <footer>&copy; 2023 DAWGIE-UI Project</footer>
 </body>
