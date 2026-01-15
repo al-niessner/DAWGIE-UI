@@ -21,10 +21,48 @@
         <a href="../state/index.html">State</a>
         <a href="../schedule/index.html">Schedule</a>
     </nav>
-    <main>
+    <main style="position: relative;">
+        <div style="position: absolute; top: 0; right: 0; padding: 10px;">
+            <label for="refresh-rate">Refresh: </label>
+            <select id="refresh-rate">
+                <option value="0">no refresh</option>
+                <option value="15000">15 seconds</option>
+                <option value="30000" selected>30 seconds</option>
+                <option value="45000">45 seconds</option>
+                <option value="60000">60 seconds</option>
+            </select>
+        </div>
+
         <h2>Tree View</h2>
         <p>Visualize the relationship between different system tasks and modules.</p>
+
+        <div class="fidelity-controls">
+            <button class="fidelity-btn active" data-view="task" data-svg="../images/tv.svg">Task</button>
+            <button class="fidelity-btn" data-view="alg" data-svg="../images/av.svg">Algorithm</button>
+            <button class="fidelity-btn" data-view="sv" data-svg="../images/svv.svg">State Vector</button>
+        </div>
+
+        <div class="hierarchy-layout">
+            <div id="svg-container" class="svg-viewport">
+                <!-- SVG will be injected here -->
+            </div>
+            
+            <div class="table-sidebar">
+                <table id="node-data-table">
+                    <thead>
+                        <tr>
+                            <th>Node</th>
+                            <th>Status</th>
+                            <th>Run ID</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
     </main>
+    <script src="../javascript/hierarchy.js" defer></script>
     <footer>&copy; 2023 DAWGIE-UI Project</footer>
 </body>
 </html>

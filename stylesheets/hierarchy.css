@@ -1,0 +1,76 @@
+/* ... existing code ... */
+.fidelity-btn.active {
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    font-weight: bold;
+}
+
+.hierarchy-display {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 20px;
+}
+
+.hierarchy-layout {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 20px;
+    width: 100%;
+}
+
+.svg-viewport {
+    flex: 1; /* Takes up remaining space on the left */
+    border: 1px solid #ddd;
+    background: #fff;
+    padding: 10px;
+    overflow: hidden; /* Prevents container from growing past flex bounds */
+    display: flex;
+    justify-content: center;
+}
+
+/* Force the SVG to scale to the container width */
+.svg-viewport svg {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+}
+
+.table-sidebar {
+    width: 450px; /* Fixed width for the data on the right */
+    max-height: 80vh;
+    overflow-y: auto;
+    border-left: 1px solid #eee;
+    padding-left: 20px;
+}
+
+.table-container {
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+#node-data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9em;
+}
+
+#node-data-table th {
+    position: sticky;
+    top: 0;
+    background: white;
+    padding: 10px 5px;
+    border-bottom: 2px solid #ddd;
+    text-align: left;
+}
+
+#node-data-table td {
+    padding: 8px 5px;
+    border-bottom: 1px solid #eee;
+}
+
+/* SVG Status Colors */
+.status-succeeded { fill: #90ee90 !important; }
+.status-failed { fill: #ffcccb !important; }
+.status-scheduled { fill: #ffffe0 !important; }
+/* ... existing code ... */
