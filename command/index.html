@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <title>DAWGIE UI: Command</title>
     <link rel="stylesheet" href="../stylesheets/base.css">
+    <link rel="stylesheet" href="../stylesheets/command.css">
     <script src="../javascript/common.js" defer></script>
+    <script src="../javascript/command.js" defer></script>
 </head>
 <body>
     <header>
@@ -21,9 +23,54 @@
         <a href="../state/index.html">State</a>
         <a href="../schedule/index.html">Schedule</a>
     </nav>
-    <main>
-        <h2>Execute Actions</h2>
-        <p>Send manual overrides and commands to the system.</p>
+    <main class="command-main">
+        <section class="revision-section">
+            <h2>Revision</h2>
+            <div class="current-rev">Current: <span id="current-rev-val">Loading...</span></div>
+            
+            <div class="form-group">
+                <label for="changeset">Changeset (hex):</label>
+                <input type="text" id="changeset" placeholder="e.g. a1b2c3d4">
+            </div>
+
+            <div class="form-group">
+                <label for="reload-directive">Reload Directive:</label>
+                <select id="reload-directive">
+                    <option value="todo" selected>To-Do Finishes</option>
+                    <option value="doing">Doing Finishes</option>
+                    <option value="crew">Crew Finishes</option>
+                    <option value="now">Now</option>
+                </select>
+            </div>
+
+            <button id="rev-submit" disabled>Submit</button>
+        </section>
+
+        <section class="commands-section">
+            <h2>Commands</h2>
+            <p class="preamble">
+                In the event that you want to re-run only specific task(s) and targets(s), select these task(s) and targets(s) below, and then press the Run button. On a Mac, to select multiple items, hold down the command key as you select. A certificate may be needed for security reasons.
+            </p>
+            <div class="selector-container">
+                <div class="selector-group">
+                    <label>Tasks</label>
+                    <div class="filter-placeholder"></div>
+                    <select id="tasks-select" multiple></select>
+                </div>
+                
+                <div class="selector-group">
+                    <label>Targets</label>
+                    <div class="filter-group">
+                        <input type="text" id="target-include" placeholder="Include (glob)">
+                        <input type="text" id="target-exclude" placeholder="Exclude (glob)">
+                    </div>
+                    <select id="targets-select" multiple size="10"></select>
+                    <small id="targets-count"></small>
+                </div>
+            </div>
+            
+            <button id="run-btn" disabled>Run</button>
+        </section>
     </main>
     <footer>&copy; 2023 DAWGIE-UI Project</footer>
 </body>

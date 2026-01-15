@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <title>DAWGIE UI: Schedule</title>
     <link rel="stylesheet" href="../stylesheets/base.css">
+    <link rel="stylesheet" href="../stylesheets/schedule.css">
     <script src="../javascript/common.js" defer></script>
+    <script src="../javascript/schedule.js" defer></script>
 </head>
 <body>
     <header>
@@ -21,9 +23,54 @@
         <a href="../state/index.html">State</a>
         <a href="index.html">Schedule</a>
     </nav>
-    <main>
-        <h2>Upcoming Tasks</h2>
-        <p>Monitor planned executions and cron-like schedules.</p>
+    <main class="schedule-main">
+        <div class="refresh-controls">
+            <label for="refresh-rate">Refresh: </label>
+            <select id="refresh-rate">
+                <option value="0">no refresh</option>
+                <option value="15000">15 seconds</option>
+                <option value="30000" selected>30 seconds</option>
+                <option value="45000">45 seconds</option>
+                <option value="60000">60 seconds</option>
+            </select>
+        </div>
+
+        <section id="active-section">
+            <h2>Active</h2>
+            <div class="schedule-stats">
+                <div class="stat-box"><span>Busy Workers:</span> <span id="stat-busy">0</span></div>
+                <div class="stat-box"><span>Idle Workers:</span> <span id="stat-idle">0</span></div>
+                <div class="stat-box"><span>Total Workers:</span> <span id="stat-total">0</span></div>
+            </div>
+            <div class="scroll-container">
+                <div class="scroll-window" id="win-in-progress">
+                    <h3>In-Progress (Crew)</h3>
+                    <div class="virtual-scroll" id="scroll-in-progress"></div>
+                </div>
+                <div class="scroll-window" id="win-doing">
+                    <h3>Doing</h3>
+                    <div class="virtual-scroll" id="scroll-doing"></div>
+                </div>
+                <div class="scroll-window" id="win-to-do">
+                    <h3>To Do</h3>
+                    <div class="virtual-scroll" id="scroll-to-do"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="done-section">
+            <h2>Done</h2>
+            <div class="scroll-container">
+                <div class="scroll-window" id="win-succeeded">
+                    <h3>Succeeded</h3>
+                    <div class="virtual-scroll" id="scroll-succeeded"></div>
+                </div>
+                <div class="scroll-window" id="win-failed">
+                    <h3>Failed</h3>
+                    <div class="virtual-scroll" id="scroll-failed"></div>
+                </div>
+            </div>
+        </section>
     </main>
     <footer>&copy; 2023 DAWGIE-UI Project</footer>
 </body>
