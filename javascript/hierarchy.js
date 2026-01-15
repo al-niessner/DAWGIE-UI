@@ -9,16 +9,15 @@ async function loadHierarchy() {
         const response = await fetch(url);
         const svgText = await response.text();
         const container = document.getElementById('svg-container');
+        
+        // Clear and Inject
         container.innerHTML = svgText;
-    
+
         const svgElement = container.querySelector('svg');
         if (svgElement) {
-            // Remove fixed dimensions to allow CSS scaling
+            // Remove hardcoded attributes that prevent scaling
             svgElement.removeAttribute('width');
             svgElement.removeAttribute('height');
-            svgElement.style.width = '100%';
-            svgElement.style.height = 'auto';
-            
             updateNodeData(svgElement);
         }
     } catch (e) {

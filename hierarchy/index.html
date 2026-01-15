@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>DAWGIE UI: Hierarchy</title>
     <link rel="stylesheet" href="../stylesheets/base.css">
+    <link rel="stylesheet" href="../stylesheets/hierarchy.css">
     <script src="../javascript/common.js" defer></script>
 </head>
 <body>
@@ -42,12 +43,12 @@
             <button class="fidelity-btn" data-view="sv" data-svg="../images/svv.svg">State Vector</button>
         </div>
 
-        <div class="hierarchy-layout">
-            <div id="svg-container" class="svg-viewport">
-                <!-- SVG will be injected here -->
+        <div class="hierarchy-container">
+            <div id="svg-container" class="hierarchy-svg-content">
+                <!-- SVG injected here -->
             </div>
             
-            <div class="table-sidebar">
+            <aside class="hierarchy-table-sidebar">
                 <table id="node-data-table">
                     <thead>
                         <tr>

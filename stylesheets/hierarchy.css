@@ -11,62 +11,56 @@
     gap: 20px;
 }
 
-.hierarchy-layout {
+.hierarchy-container {
     display: flex;
-    flex-direction: row;
-    align-items: flex-start;
     gap: 20px;
+    align-items: flex-start;
     width: 100%;
 }
 
-.svg-viewport {
-    flex: 1; /* Takes up remaining space on the left */
+.hierarchy-svg-content {
+    flex: 0 0 65%; /* Constrains SVG to 65% of the page width */
     border: 1px solid #ddd;
     background: #fff;
     padding: 10px;
-    overflow: hidden; /* Prevents container from growing past flex bounds */
-    display: flex;
-    justify-content: center;
+    overflow: hidden;
 }
 
-/* Force the SVG to scale to the container width */
-.svg-viewport svg {
-    width: 100%;
-    height: auto;
-    max-width: 100%;
+.hierarchy-svg-content svg {
+    width: 100% !important;
+    height: auto !important;
+    display: block;
 }
 
-.table-sidebar {
-    width: 450px; /* Fixed width for the data on the right */
+.hierarchy-table-sidebar {
+    flex: 0 0 33%; /* Constrains Table to 33% of the page width */
     max-height: 80vh;
     overflow-y: auto;
-    border-left: 1px solid #eee;
-    padding-left: 20px;
-}
-
-.table-container {
-    max-height: 600px;
-    overflow-y: auto;
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
 }
 
 #node-data-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.9em;
+    font-size: 0.85rem;
 }
 
 #node-data-table th {
+    text-align: left;
+    border-bottom: 2px solid #eee;
+    padding: 8px 4px;
     position: sticky;
     top: 0;
-    background: white;
-    padding: 10px 5px;
-    border-bottom: 2px solid #ddd;
-    text-align: left;
+    background: #f9f9f9;
 }
 
 #node-data-table td {
-    padding: 8px 5px;
+    padding: 6px 4px;
     border-bottom: 1px solid #eee;
+    word-break: break-all;
 }
 
 /* SVG Status Colors */
