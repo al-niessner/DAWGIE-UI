@@ -18,11 +18,62 @@ async function loadHierarchy() {
             // Remove hardcoded attributes that prevent scaling
             svgElement.removeAttribute('width');
             svgElement.removeAttribute('height');
+            setupZoomAndPan(svgElement, container);
             updateNodeData(svgElement);
         }
     } catch (e) {
         console.error("Failed to load SVG", e);
     }
+}
+
+function setupZoomAndPan(svg, container) {
+    let isPanning = false;
+    let startPoint = { x: 0, y: 0 };
+    
+    // Parse initial viewBox or create one if missing
+    let viewBox = svg.viewBox.baseVal;
+    if (viewBox.width === 0) {
+        const bBox = svg.getBBox();
+        svg.setAttribute('viewBox', `${bBox.x} ${bBox.y} ${bBox.width} ${bBox.height}`);
+    }
+
+    container.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        const scale = e.deltaY > 0 ? 1.1 : 0.9;
+        
+        // Zoom relative to the center of the current view
+        const dw = viewBox.width * (scale - 1);
+        const dh = viewBox.height * (scale - 1);
+        
+        viewBox.x -= dw / 2;
+        viewBox.y -= dh / 2;
+        viewBox.width *= scale;
+        viewBox.height *= scale;
+    }, { passive: false });
+
+    container.addEventListener('mousedown', (e) => {
+        isPanning = true;
+        startPoint = { x: e.clientX, y: e.clientY };
+        container.style.cursor = 'grabbing';
+    });
+
+    window.addEventListener('mousemove', (e) => {
+        if (!isPanning) return;
+        
+        // Calculate movement relative to SVG coordinate system
+        const dx = (e.clientX - startPoint.x) * (viewBox.width / container.clientWidth);
+        const dy = (e.clientY - startPoint.y) * (viewBox.height / container.clientHeight);
+        
+        viewBox.x -= dx;
+        viewBox.y -= dy;
+        
+        startPoint = { x: e.clientX, y: e.clientY };
+    });
+
+    window.addEventListener('mouseup', () => {
+        isPanning = false;
+        container.style.cursor = 'grab';
+    });
 }
 
 async function updateNodeData(svgElement) {

@@ -19,17 +19,33 @@
 }
 
 .hierarchy-svg-content {
-    flex: 0 0 65%; /* Constrains SVG to 65% of the page width */
+    flex: 0 0 65%;
+    height: 600px; /* Give it a fixed height for the viewport */
     border: 1px solid #ddd;
     background: #fff;
-    padding: 10px;
+    padding: 0;
     overflow: hidden;
+    cursor: grab;
+    position: relative;
+    user-select: none; /* Prevent text selection while panning */
 }
 
 .hierarchy-svg-content svg {
-    width: 100% !important;
-    height: auto !important;
+    width: 100%;
+    height: 100%;
     display: block;
+    pointer-events: all; /* Ensure events reach the SVG */
+}
+
+/* Optional: Add a subtle instruction overlay */
+.hierarchy-svg-content::after {
+    content: "Scroll to zoom, Drag to pan";
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    font-size: 0.7rem;
+    color: #999;
+    pointer-events: none;
 }
 
 .hierarchy-table-sidebar {
