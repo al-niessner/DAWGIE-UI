@@ -1,7 +1,6 @@
-let currentView = 'alg';
 let refreshInterval = null;
 
-async function loadData Flow Model() {
+async function loadData_Flow_Model() {
     const activeBtn = document.querySelector('.fidelity-btn.active');
     const url = activeBtn.dataset.svg;
     
@@ -19,7 +18,7 @@ async function loadData Flow Model() {
             svgElement.removeAttribute('width');
             svgElement.removeAttribute('height');
             setupZoomAndPan(svgElement, container);
-            updateNodeData(svgElement);
+            await updateNodeData(svgElement);
         }
     } catch (e) {
         console.error("Failed to load SVG", e);
@@ -30,7 +29,7 @@ function setupZoomAndPan(svg, container) {
     let isPanning = false;
     let startPoint = { x: 0, y: 0 };
     
-    // Parse initial viewBox or create one if missing
+    // Parse the initial viewBox or create one if missing
     let viewBox = svg.viewBox.baseVal;
     if (viewBox.width === 0) {
         const bBox = svg.getBBox();
@@ -60,7 +59,7 @@ function setupZoomAndPan(svg, container) {
     window.addEventListener('mousemove', (e) => {
         if (!isPanning) return;
         
-        // Calculate movement relative to SVG coordinate system
+        // Calculate movement relative to the SVG coordinate system
         const dx = (e.clientX - startPoint.x) * (viewBox.width / container.clientWidth);
         const dy = (e.clientY - startPoint.y) * (viewBox.height / container.clientHeight);
         
@@ -101,7 +100,7 @@ async function updateNodeData(svgElement) {
         row.innerHTML = `
             <td>${nodeName}</td>
             <td>${status}</td>
-            <td>${data?.run_id || '-'}</td>
+            <td>${data?.runid || '-'}</td>
             <td>${data?.date || '-'}</td>
         `;
 
@@ -149,7 +148,7 @@ document.querySelectorAll('.fidelity-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
         document.querySelectorAll('.fidelity-btn').forEach(b => b.classList.remove('active'));
         e.target.classList.add('active');
-        loadData Flow Model();
+        loadData_Flow_Model();
     });
 });
 
@@ -169,6 +168,6 @@ document.getElementById('refresh-now-btn').addEventListener('click', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    loadData Flow Model();
+    loadData_Flow_Model();
     setupRefresh();
 });

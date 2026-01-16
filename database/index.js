@@ -35,7 +35,7 @@ async function openModal(key) {
     if (key === 'runid') {
         const max = await apiFetch('/api/database/search/runid/max');
         body.innerHTML = `
-            <p>Enter range (e.g. 1..10) or list (1,3,5). Max: ${max || 'unknown'}</p>
+            <p>Enter range (e.g., 1..10) or list (1,3,5). Max: ${max || 'unknown'}</p>
             <input type="text" id="modal-input" value="${currentQuery.runid === '-1' ? '' : currentQuery.runid}">
         `;
     } else {
@@ -102,7 +102,6 @@ function handleSort(key) {
     const existing = sortStack.find(s => s.key === key);
     if (existing) {
         existing.desc = !existing.desc;
-        // Move to front
         sortStack = [existing, ...sortStack.filter(s => s.key !== key)];
     } else {
         sortStack = [{key, desc: false}, ...sortStack];

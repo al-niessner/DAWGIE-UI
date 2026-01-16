@@ -40,9 +40,11 @@ function renderWindow(containerId, items, reverse = false) {
     `).join('');
 }
 
+
 async function refreshAll() {
-    updateStats();
-    for (const [id, config] of Object.entries(windowConfigs)) {
+    await updateStats();
+    for (const [id, config] of Object.entries(windowConfigs)) {}
+}
 
 function setupRefresh() {
     const selector = document.getElementById('refresh-rate');
