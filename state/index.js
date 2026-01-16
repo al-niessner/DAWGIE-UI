@@ -4,7 +4,7 @@ async function init() {
     const [pipeline, svgText, descriptions] = await Promise.all([
         apiFetch('/api/state/pipeline'),
         fetch('/assets/state.svg').then(r => r.text()),
-        apiFetch('/api/state/description')
+        fetch('/assets/state.json').then(r => r.json())
     ]);
 
     renderTable(descriptions);
