@@ -1,7 +1,7 @@
 let currentView = 'alg';
 let refreshInterval = null;
 
-async function loadHierarchy() {
+async function loadData Flow Model() {
     const activeBtn = document.querySelector('.fidelity-btn.active');
     const url = activeBtn.dataset.svg;
     
@@ -89,7 +89,7 @@ async function updateNodeData(svgElement) {
     tbody.innerHTML = ''; // Clear table
 
     for (const nodeName of nodes) {
-        const data = await apiFetch('/api/hierarchy/statistics', {
+        const data = await apiFetch('/api/df_model/statistics', {
             method: 'POST',
             body: JSON.stringify({ node: nodeName })
         });
@@ -149,7 +149,7 @@ document.querySelectorAll('.fidelity-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
         document.querySelectorAll('.fidelity-btn').forEach(b => b.classList.remove('active'));
         e.target.classList.add('active');
-        loadHierarchy();
+        loadData Flow Model();
     });
 });
 
@@ -169,6 +169,6 @@ document.getElementById('refresh-now-btn').addEventListener('click', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    loadHierarchy();
+    loadData Flow Model();
     setupRefresh();
 });

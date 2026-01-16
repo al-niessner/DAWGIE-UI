@@ -4,8 +4,8 @@ async function init() {
     // Fetch initial data
     const [currentRev, tasks, targets] = await Promise.all([
         apiFetch('/api/rev/current'),
-        apiFetch('/api/cmd/tasks'),
-        apiFetch('/api/cmd/targets')
+        apiFetch('/api/database/search/tasks'),
+        apiFetch('/api/database/search/targets')
     ]);
 
     if (currentRev) document.getElementById('current-rev-val').textContent = currentRev;

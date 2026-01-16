@@ -5,20 +5,20 @@
     font-weight: bold;
 }
 
-.hierarchy-display {
+.df_model-display {
     display: grid;
     grid-template-columns: 1fr 400px;
     gap: 20px;
 }
 
-.hierarchy-container {
+.df_model-container {
     display: flex;
     gap: 20px;
     align-items: flex-start;
     width: 100%;
 }
 
-.hierarchy-svg-content {
+.df_model-svg-content {
     flex: 0 0 65%;
     height: 600px; /* Give it a fixed height for the viewport */
     border: 1px solid #ddd;
@@ -30,7 +30,7 @@
     user-select: none; /* Prevent text selection while panning */
 }
 
-.hierarchy-svg-content svg {
+.df_model-svg-content svg {
     width: 100%;
     height: 100%;
     display: block;
@@ -38,7 +38,7 @@
 }
 
 /* Optional: Add a subtle instruction overlay */
-.hierarchy-svg-content::after {
+.df_model-svg-content::after {
     content: "Scroll to zoom, Drag to pan";
     position: absolute;
     bottom: 10px;
@@ -48,7 +48,7 @@
     pointer-events: none;
 }
 
-.hierarchy-table-sidebar {
+.df_model-table-sidebar {
     flex: 0 0 33%; /* Constrains Table to 33% of the page width */
     max-height: 80vh;
     overflow-y: auto;
