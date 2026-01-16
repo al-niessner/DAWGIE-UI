@@ -1,9 +1,9 @@
 {
-    "archiving" : "",
-    "contemplation" : "",
-    "gitting" : "",
-    "loading" : "",
-    "running" : "",
-    "starting" : "",
-    "updating" : ""
+    "archiving" : "Snapshot the database state for posterity. Keep the configured numver of historical versions.",
+    "contemplation" : "(Navel Gazing) Review all of the metric data and produce an internal statistical model on resource consumption for any given target and task.algorithm pair. Use the model to determine distribution of tasks between edge and cloud hardware.",
+    "gitting" : "Merge the user submission from the Command page into the PRE-OPS branch. Verify the code is compliant (exo/spec/tools/compliant.py) before pushing branch back to github.",
+    "loading" : "Load all of the AE modules. Determine the AE module data flow. Check for new software versions and schedule accordingly.",
+    "running" : "Process the TODO list and initiate any periodic tasks as they become due. Command, Database, and Schedule pages will be responsive.",
+    "starting" : "(Start) Initializing the non-pipeline infrastructure then loading and starting the base pipeline.",
+    "updating" : "Discarding all loaded AE modules that have been loaded. Updating the OPS source code from git and merging in the PRE-OPS branch."
 }
