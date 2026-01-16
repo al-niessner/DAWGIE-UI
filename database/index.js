@@ -33,7 +33,7 @@ async function openModal(key) {
     modal.classList.remove('hidden');
 
     if (key === 'runid') {
-        const max = await apiFetch('/api/database/search/runid/max');
+        const max = await apiFetch('/api/database/search/runid');
         body.innerHTML = `
             <p>Enter range (e.g., 1..10) or list (1,3,5). Max: ${max || 'unknown'}</p>
             <input type="text" id="modal-input" value="${currentQuery.runid === '-1' ? '' : currentQuery.runid}">

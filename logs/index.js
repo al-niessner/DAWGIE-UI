@@ -11,7 +11,7 @@ async function fetchLogs() {
         limit: count
     });
 
-    const logs = await apiFetch(`/api/logs?${params.toString()}`);
+    const logs = await apiFetch(`/api/logs/recent?${params.toString()}`);
 
     if (logs && Array.isArray(logs)) {
         const display = document.getElementById('log-display');
