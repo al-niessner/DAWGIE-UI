@@ -1,15 +1,15 @@
 async function loadHomeContent() {
-    const readmeElement = document.getElementById('readme-content');
+    const readmeElement = document.getElementById('readme-custom');
     if (!readmeElement) return;
 
     // Load README.md
     try {
-        const response = await fetch('content/home.md');
+        const response = await fetch('/assets/custom/home.md');
         if (response.ok) {
             const text = await response.text();
             readmeElement.innerHTML = marked.parse(text);
         } else {
-            readmeElement.innerHTML = "<p>content/home.md not found.</p>";
+            readmeElement.innerHTML = "<p>custom/home.md not found.</p>";
         }
     } catch (e) {
         readmeElement.innerHTML = "<p>Error loading documentation.</p>";

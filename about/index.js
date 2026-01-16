@@ -18,6 +18,6 @@ async function loadMarkdown(url, elementId) {
         }
     } catch (e) {
         console.error(`Failed to load markdown from ${url}:`, e);
-        container.innerHTML = "<p>Error loading content.</p>";
+        container.innerHTML = "<p>Error loading custom.</p>";
     }
 }
