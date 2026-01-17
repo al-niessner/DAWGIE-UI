@@ -2,7 +2,7 @@ let refreshInterval = null;
 
 async function init() {
     const [pipeline, svgText, descriptions] = await Promise.all([
-        apiFetch('/api/state/pipeline'),
+        apiFetch('/api/pipeline/state'),
         fetch('/assets/state.svg').then(r => r.text()),
         fetch('/assets/state.json').then(r => r.json())
     ]);

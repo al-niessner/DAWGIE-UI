@@ -26,7 +26,7 @@ async function loadHomeContent() {
     }
 
     // Load Pipeline State
-    const state = await apiFetch('/api/state/pipeline');
+    const state = await apiFetch('/api/pipeline/state');
     if (state) {
         document.getElementById('pipeline-state').textContent = state.status || "Unknown";
     }
