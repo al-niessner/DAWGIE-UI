@@ -18,11 +18,11 @@ async function loadHomeContent() {
     // Load Statistics
     const stats = await apiFetch('/api/schedule/stats');
     if (stats) {
-        document.getElementById('stat-busy').textContent = stats.busy_workers || -1;
-        document.getElementById('stat-idle').textContent = stats.idle_workers || -1;
-        document.getElementById('stat-total').textContent = stats.total_workers || -1;
-        document.getElementById('stat-queued').textContent = stats.queued_jobs || -1;
-        document.getElementById('stat-waiting').textContent = stats.waiting_tasks || -1;
+        document.getElementById('stat-busy').textContent = stats.workers.busy || -1;
+        document.getElementById('stat-idle').textContent = stats.workers.idle || -1;
+        document.getElementById('stat-total').textContent = stats.workers.busy + stats.workers.idle || -1;
+        document.getElementById('stat-queued').textContent = stats.jobs.doing || -1;
+        document.getElementById('stat-waiting').textContent = stats.jobs.todo || -1;
     }
 
     // Load Pipeline State
