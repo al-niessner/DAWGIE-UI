@@ -18,11 +18,13 @@ async function loadHomeContent() {
     // Load Statistics
     const stats = await apiFetch('/api/schedule/stats');
     if (stats) {
-        document.getElementById('stat-busy').textContent = stats.workers.busy || -1;
-        document.getElementById('stat-idle').textContent = stats.workers.idle || -1;
-        document.getElementById('stat-total').textContent = stats.workers.busy + stats.workers.idle || -1;
-        document.getElementById('stat-queued').textContent = stats.jobs.doing || -1;
-        document.getElementById('stat-waiting').textContent = stats.jobs.todo || -1;
+        const busy = (stats.workers.busy ?? -1);
+        const idle = (stats.workers.idle ?? -1);
+        document.getElementById('stat-busy').textContent = busy;
+        document.getElementById('stat-idle').textContent = idle;
+        document.getElementById('stat-total').textContent = (busy !== -1 && idle !== -1) ? busy + idle : -1;
+        document.getElementById('stat-queued').textContent = stats.jobs.doing ?? -1;
+        document.getElementById('stat-waiting').textContent = stats.jobs.todo ?? -1;
     }
 
     // Load Pipeline State
@@ -35,9 +37,15 @@ async function loadHomeContent() {
     const logs = await apiFetch('/api/logs/recent?limit=3');
     if (logs && Array.isArray(logs)) {
         const logsContainer = document.getElementById('recent-logs');
-        logsContainer.innerHTML = logs.map(log => `<div class="log-item">${log}</div>`).join('');
+        logsContainer.innerHTML = logs.map(log => `
+                <div class="log-item">
+                    <div class="log-name">${log.name}</div>
+                    <p><strong>${log.level} | ${log.timeStamp}</strong></p>
+                    <p>${log.message.replace(/\n/g, '<br>')}</p>
+                </div>
+            `).join('');
+        }
     }
-}
 
 // Initialize on load
 document.addEventListener('DOMContentLoaded', loadHomeContent);

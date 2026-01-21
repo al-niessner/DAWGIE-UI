@@ -3,7 +3,12 @@
   "version": "1.0.0",
   "main": "index.html",
   "scripts": {
+    "start": "browser-sync start --config proxy.config.js --browser google-chrome",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "browser-sync": "^3.0.4",
+    "http-proxy-middleware": "^3.0.5"
+  }
 }

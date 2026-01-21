@@ -55,6 +55,8 @@ async function updateTitles() {
         name = "DAWGIE";
     }
 
+    name = name.toUpperCase();
+
     // Update <title>
     if (document.title.includes("DAWGIE UI")) {
         document.title = document.title.replace("DAWGIE UI", name);
