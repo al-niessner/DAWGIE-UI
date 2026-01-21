@@ -13,9 +13,16 @@ async function fetchLogs() {
 
     const logs = await apiFetch(`/api/logs/recent?${params.toString()}`);
 
+    // Example of where the logs are rendered (adjust based on your actual fetch logic)
+    const logsContainer = document.getElementById('log-display');
     if (logs && Array.isArray(logs)) {
-        const display = document.getElementById('log-display');
-        display.innerHTML = logs.map(log => `<div class="log-entry">${log}</div>`).join('');
+        logsContainer.innerHTML = logs.map(log => `
+                <div class="log-entry log-level-${log.level.toLowerCase()}">
+                    <div class="log-name">${log.name}</div>
+                    <p><strong>${log.level} | ${log.timeStamp}</strong></p>
+                    <p>${log.message.replace(/\n/g, '<br>')}</p>
+                </div>
+            `).join('');
     }
 
     resetTimer();

@@ -51,7 +51,7 @@
 .log-item {
     margin-bottom: 15px;
     padding: 10px;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #000;
 }
 
 .log-name {
