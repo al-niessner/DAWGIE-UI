@@ -22,6 +22,7 @@ function showApiError(status, message) {
  */
 async function apiFetch(url, options = {}) {
     try {
+        console.log(`Fetching ${url}`);
         const response = await fetch(url, options);
         if (!response.ok) {
             const errorMsg = `HTTP error! status: ${response.status}`;

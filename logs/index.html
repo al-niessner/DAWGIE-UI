@@ -24,12 +24,16 @@
         <a href="../schedule/index.html">Schedule</a>
     </nav>
     <main>
+        <p>These logs are displayed in real-time and provide insights into the system's operation.
+            However, these messages are from the server and do not reflect all messages from the workers.
+            See the log file for a comprehensive view of all messages.
+        </p>
         <div class="logs-controls">
             <div class="countdown-timer">Refresh in: <span id="timer-val">5</span>s</div>
             <div class="filter-group">
                 <label><input type="checkbox" class="log-level" value="debug"> Debug</label>
                 <label><input type="checkbox" class="log-level" value="info"> Info</label>
-                <label><input type="checkbox" class="log-level" value="warn" checked> Warn</label>
+                <label><input type="checkbox" class="log-level" value="warning" checked> Warning</label>
                 <label><input type="checkbox" class="log-level" value="error" checked> Error</label>
                 <label><input type="checkbox" class="log-level" value="critical" checked> Critical</label>
             </div>
