@@ -83,4 +83,6 @@
 .status-succeeded { fill: #90ee90 !important; }
 .status-failed { fill: #ffcccb !important; }
 .status-scheduled { fill: #ffffe0 !important; }
+.status-processing { fill: orange !important; }
+
 /* ... existing code ... */
