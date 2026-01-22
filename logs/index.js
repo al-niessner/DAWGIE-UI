@@ -1,4 +1,4 @@
-let refreshTimer = 5;
+let refreshTimer = 15;
 let timerInterval;
 
 async function fetchLogs() {
@@ -29,7 +29,7 @@ async function fetchLogs() {
 }
 
 function resetTimer() {
-    refreshTimer = 5;
+    refreshTimer = 15;
     document.getElementById('timer-val').textContent = refreshTimer;
 }
 
