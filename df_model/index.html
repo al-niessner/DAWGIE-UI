@@ -35,7 +35,20 @@
         </div>
 
         <h2>Tree View</h2>
-        <p>Visualize the relationship between different system tasks and modules.</p>
+        <p>Visualize the relationships between various elements in the system and the data that connects them.
+           Each of these visualizations provides a different level of detail, allowing you to explore the system's structure and data flow at various granularities.
+        </p>
+
+        <section class="status-legend" aria-label="Status legend">
+            <div class="legend-title">Legend</div>
+            <ul class="legend-items">
+                <li class="legend-item"><span class="legend-swatch legend-both"></span><span>Both</span></li>
+                <li class="legend-item"><span class="legend-swatch legend-failed"></span><span>Failed</span></li>
+                <li class="legend-item"><span class="legend-swatch legend-processing"></span><span>Processing</span></li>
+                <li class="legend-item"><span class="legend-swatch legend-scheduled"></span><span>Scheduled</span></li>
+                <li class="legend-item"><span class="legend-swatch legend-succeeded"></span><span>Succeeded</span></li>
+            </ul>
+        </section>
 
         <div class="fidelity-controls">
             <button class="fidelity-btn" data-view="task" data-svg="../assets/tv.svg">Task</button>
@@ -47,7 +60,7 @@
             <div id="svg-container" class="df_model-svg-content">
                 <!-- SVG injected here -->
             </div>
-            
+
             <aside class="df_model-table-sidebar">
                 <table id="node-data-table">
                     <thead>

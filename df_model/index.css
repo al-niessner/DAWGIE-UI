@@ -11,6 +11,53 @@
     gap: 20px;
 }
 
+/* Status legend (independent, above SVG/table) */
+.status-legend {
+    margin: 12px 0 14px 0;
+    padding: 10px 12px;
+    border: 1px solid #eee;
+    background: #fff;
+    border-radius: 6px;
+}
+
+.status-legend .legend-title {
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.status-legend .legend-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 18px;
+    align-items: center;
+}
+
+.status-legend .legend-item {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+.status-legend .legend-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    border: 1px solid rgba(0,0,0,0.18);
+    display: inline-block;
+}
+
+.status-legend .legend-succeeded { background: #90ee90; }
+.status-legend .legend-failed { background: #ffcccb; }
+.status-legend .legend-scheduled { background: #ffffe0; }
+.status-legend .legend-processing { background: orange; }
+.status-legend .legend-both {
+    background: linear-gradient(90deg, #90ee90 0%, #ffcccb 100%);
+}
+
 .df_model-container {
     display: flex;
     gap: 20px;
