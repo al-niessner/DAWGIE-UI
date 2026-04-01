@@ -57,7 +57,7 @@ function formatItems(endpoint, items) {
             const duration = formatDuration(started, completed);
             const infoParts = [
                 `<em>scheduled: ${scheduled}</em>`,
-                `<em>starting: ${started}</em>`,
+                `<em>started:   ${started}</em>`,
                 `<em>completed: ${completed}</em>`
             ];
             if (duration) {

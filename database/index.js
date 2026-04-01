@@ -52,12 +52,14 @@ async function openModal(key) {
         // Fetch valid options based on current filters
         const params = new URLSearchParams({
             runids: currentQuery.runid,
-            targets: currentQuery.target,
-            tasks: currentQuery.task,
-            algs: currentQuery.alg,
-            svs: currentQuery.sv,
             vals: '*'
         });
+
+        if (currentQuery.target !== '*') params.set('targets', currentQuery.target);
+        if (currentQuery.task !== '*') params.set('tasks', currentQuery.task);
+        if (currentQuery.alg !== '*') params.set('algs', currentQuery.alg);
+        if (currentQuery.sv !== '*') params.set('svs', currentQuery.sv);
+
         const items = await apiFetch(`/api/database/filter/${key}?${params.toString()}`);
 
         if (items) {
@@ -73,6 +75,23 @@ async function openModal(key) {
     }
     
     modal.dataset.activeKey = key;
+}
+
+async function performSearch() {
+    const params = new URLSearchParams({
+        runids: currentQuery.runid
+    });
+
+    if (currentQuery.target !== '*') params.set('targets', currentQuery.target);
+    if (currentQuery.task !== '*') params.set('tasks', currentQuery.task);
+    if (currentQuery.alg !== '*') params.set('algs', currentQuery.alg);
+    if (currentQuery.sv !== '*') params.set('svs', currentQuery.sv);
+
+    const results = await apiFetch(`/api/database/search?${params.toString()}`);
+    if (results) {
+        searchResults = results; // Expecting array of objects {runid, target, task, alg, sv}
+        renderTable();
+    }
 }
 
 function applyModal() {
@@ -159,22 +178,6 @@ function closeModal() {
     document.getElementById('modal-overlay').classList.add('hidden');
 }
 
-async function performSearch() {
-    const params = new URLSearchParams({
-        runids: currentQuery.runid,
-        targets: currentQuery.target,
-        tasks: currentQuery.task,
-        algs: currentQuery.alg,
-        svs: currentQuery.sv
-    });
-    const results = await apiFetch(`/api/database/search?${params.toString()}`);
-
-    if (results) {
-        searchResults = results; // Expecting array of objects {runid, target, task, alg, sv}
-        renderTable();
-    }
-}
-
 function handleSort(key) {
     // Basic multi-sort logic: move key to front of stack
     const existing = sortStack.find(s => s.key === key);
@@ -190,32 +193,67 @@ function handleSort(key) {
 }
 
 function sortData() {
-    searchResults.sort((a, b) => {
+    if (!searchResults || !Array.isArray(searchResults.items)) return;
+
+    searchResults.items.sort((a, b) => {
+        const parseItem = (item) => {
+            const [runid = '', target = '', task = '', alg = '', sv = ''] = String(item).split('.');
+            return { runid, target, task, alg, sv };
+        };
+
+        const rowA = parseItem(a);
+        const rowB = parseItem(b);
+
         for (let sort of sortStack) {
-            let valA = a[sort.key];
-            let valB = b[sort.key];
-            
+            let valA = rowA[sort.key];
+            let valB = rowB[sort.key];
+
             if (sort.key === 'runid') {
-                valA = parseInt(valA);
-                valB = parseInt(valB);
+                valA = parseInt(valA, 10);
+                valB = parseInt(valB, 10);
             }
 
             if (valA < valB) return sort.desc ? 1 : -1;
             if (valA > valB) return sort.desc ? -1 : 1;
         }
+
         return 0;
     });
 }
 
 function renderTable() {
     const body = document.getElementById('results-body');
-    body.innerHTML = searchResults.map(row => `
-        <tr>
-            <td>${row.runid}</td>
-            <td>${row.target}</td>
-            <td>${row.task}</td>
-            <td>${row.alg}</td>
-            <td>${row.sv}</td>
-        </tr>
-    `).join('');
+    const totalEl = document.getElementById('results-total');
+    const headerEl = document.getElementById('table-headers');
+
+    const items = Array.isArray(searchResults?.items) ? searchResults.items : [];
+    const total = searchResults?.total ?? 0;
+
+    if (body) {
+        body.innerHTML = items.map(item => {
+            const [runid = '', target = '', task = '', alg = '', sv = ''] = String(item).split('.');
+            return `
+                <tr>
+                    <td>${runid}</td>
+                    <td>${target}</td>
+                    <td>${task}</td>
+                    <td>${alg}</td>
+                    <td>${sv}</td>
+                </tr>
+            `;
+        }).join('');
+    }
+
+    const shouldShowMeta = items.length === 0;
+
+    if (totalEl) {
+        totalEl.textContent = `Total: ${total}`;
+        totalEl.style.display = shouldShowMeta ? 'block' : 'none';
+        totalEl.style.fontSize = '1.5rem';
+        totalEl.style.fontWeight = '700';
+    }
+
+    if (headerEl) {
+        headerEl.style.display = shouldShowMeta ? '' : 'none';
+    }
 }
