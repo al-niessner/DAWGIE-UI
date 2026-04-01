@@ -224,36 +224,26 @@ function sortData() {
 function renderTable() {
     const body = document.getElementById('results-body');
     const totalEl = document.getElementById('results-total');
-    const headerEl = document.getElementById('table-headers');
 
     const items = Array.isArray(searchResults?.items) ? searchResults.items : [];
     const total = searchResults?.total ?? 0;
 
-    if (body) {
-        body.innerHTML = items.map(item => {
-            const [runid = '', target = '', task = '', alg = '', sv = ''] = String(item).split('.');
-            return `
-                <tr>
-                    <td>${runid}</td>
-                    <td>${target}</td>
-                    <td>${task}</td>
-                    <td>${alg}</td>
-                    <td>${sv}</td>
-                </tr>
+    body.innerHTML = items.map(item => {
+        const [runid = '', target = '', task = '', alg = '', sv = ''] = String(item).split('.');
+        return `
+            <tr>
+               <td>${runid}</td>
+                <td>${target}</td>
+                 <td>${task}</td>
+                 <td>${alg}</td>
+                  <td>${sv}</td>
+              </tr>
             `;
-        }).join('');
-    }
-
-    const shouldShowMeta = items.length === 0;
-
+    }).join('');
+    
     if (totalEl) {
         totalEl.textContent = `Total: ${total}`;
-        totalEl.style.display = shouldShowMeta ? 'block' : 'none';
         totalEl.style.fontSize = '1.5rem';
         totalEl.style.fontWeight = '700';
-    }
-
-    if (headerEl) {
-        headerEl.style.display = shouldShowMeta ? '' : 'none';
     }
 }
