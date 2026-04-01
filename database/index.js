@@ -221,6 +221,11 @@ function sortData() {
     });
 }
 
+function openRowInNewTab(fullname) {
+    const url = `/api/database/view?fullname=${encodeURIComponent(fullname)}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
+}
+
 function renderTable() {
     const body = document.getElementById('results-body');
     const totalEl = document.getElementById('results-total');
@@ -230,8 +235,9 @@ function renderTable() {
 
     body.innerHTML = items.map(item => {
         const [runid = '', target = '', task = '', alg = '', sv = ''] = String(item).split('.');
+        const fullname = `${runid}.${target}.${task}.${alg}.${sv}`;
         return `
-            <tr>
+            <tr class="result-row" data-fullname="${fullname}">
                <td>${runid}</td>
                 <td>${target}</td>
                  <td>${task}</td>
@@ -240,7 +246,13 @@ function renderTable() {
               </tr>
             `;
     }).join('');
-    
+
+    body.querySelectorAll('.result-row').forEach(row => {
+        row.addEventListener('click', () => {
+            openRowInNewTab(row.dataset.fullname);
+        });
+    });
+
     if (totalEl) {
         totalEl.textContent = `Total: ${total}`;
         totalEl.style.fontSize = '1.5rem';
