@@ -59,3 +59,14 @@
     font-style: italic;
     margin-bottom: 5px;
 }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+table, th, td {
+  border: 1px solid black; /* This creates the walls */
+}
+th, td {
+  padding: 10px;
+}
