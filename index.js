@@ -49,3 +49,9 @@ async function loadHomeContent() {
 
 // Initialize on load
 document.addEventListener('DOMContentLoaded', loadHomeContent);
+const { gfmHeadingId } = window.markedGfmHeadingId;
+const options = {
+        prefix: "excalibur-", // Optional: adds a prefix to all IDs             
+};
+marked.use(gfmHeadingId(options));
+
