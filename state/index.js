@@ -1,9 +1,15 @@
 let refreshInterval = null;
 
 async function init() {
+    const loadSvgText = async (svgUrl) => {
+        const response = await fetch(svgUrl);
+        if (!response.ok) throw new Error(`Failed to load SVG: ${svgUrl}`);
+        return await response.text();
+    };
+
     const [pipeline, svgText, descriptions] = await Promise.all([
         apiFetch('/api/pipeline/state'),
-        fetch('/assets/state.svg').then(r => r.text()),
+        loadSvgText('/assets/state.svg').catch(() => loadSvgText('/assets/wip.svg')),
         fetch('/assets/state.json').then(r => r.json())
     ]);
 
