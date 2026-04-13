@@ -7,11 +7,22 @@ async function loadData_Flow_Model() {
     const url = activeBtn.dataset.svg;
     if (!url) return;
 
+    const container = document.getElementById('svg-container');
+    if (!container) return;
+
+    const loadSvg = async (svgUrl) => {
+        const response = await fetch(svgUrl);
+        if (!response.ok) throw new Error(`Failed to load SVG: ${svgUrl}`);
+        return await response.text();
+    };
+
     try {
-        const response = await fetch(url);
-        const svgText = await response.text();
-        const container = document.getElementById('svg-container');
-        if (!container) return;
+        let svgText;
+        try {
+            svgText = await loadSvg(url);
+        } catch (e) {
+            svgText = await loadSvg('../assets/wip.svg');
+        }
 
         // Clear and Inject
         container.innerHTML = svgText;
