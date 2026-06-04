@@ -76,14 +76,10 @@ function setupEventListeners() {
     targetsSelect.addEventListener('change', updateRunButton);
 
     runBtn.addEventListener('click', async () => {
-        const data = {
-            tasks: Array.from(tasksSelect.selectedOptions).map(o => o.value),
-            targets: Array.from(targetsSelect.selectedOptions).map(o => o.value)
-        };
-        const result = await apiFetch('/api/cmd/run', {
-            method: 'POST',
-            body: JSON.stringify(data)
-        });
+        const runnables = Array.from(tasksSelect.selectedOptions).map(o => o.value).join(',');
+        const targets = Array.from(targetsSelect.selectedOptions).map(o => o.value).join(',');
+        const url = `/api/cmd/run?runnables=${encodeURIComponent(runnables)}targets=${encodeURIComponent(targets)}`;
+        const result = await apiFetch(url, { method: 'POST' });
         if (result) alert('Command executed successfully');
     });
 
