@@ -78,7 +78,7 @@ function setupEventListeners() {
     runBtn.addEventListener('click', async () => {
         const runnables = Array.from(tasksSelect.selectedOptions).map(o => o.value).join(',');
         const targets = Array.from(targetsSelect.selectedOptions).map(o => o.value).join(',');
-        const url = `/api/cmd/run?runnables=${encodeURIComponent(runnables)}targets=${encodeURIComponent(targets)}`;
+        const url = `/api/cmd/run?runnables=${encodeURIComponent(runnables)}&targets=${encodeURIComponent(targets)}`;
         const result = await apiFetch(url, { method: 'POST' });
         if (result) alert('Command executed successfully');
     });
