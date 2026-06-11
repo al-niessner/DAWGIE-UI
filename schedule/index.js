@@ -36,6 +36,7 @@ async function resetDoneWindows() {
             await resetWindow(state);
         }
     }
+}
 
 async function updateStats() {
     const stats = await apiFetch('/api/schedule/stats');
@@ -89,7 +90,8 @@ function formatItems(endpoint, items) {
             }
             return {
                 title: titleParts.join('.'),
-                info: infoParts.join('<br>')
+                info: infoParts.join('<br>'),
+                completed
             };
         });
     }
@@ -135,6 +137,10 @@ function isNearBottom(container) {
 }
 
 async function loadNextPage(state) {
+    if (isDoneWindow(state)) {
+        return loadNextDonePage(state);
+    }
+
     if (state.fetching || state.done) return;
     state.fetching = true;
 
@@ -150,6 +156,48 @@ async function loadNextPage(state) {
     const formatted = formatItems(state.endpoint, items);
     if (formatted.length === 0) {
         state.done = true;
+    } else {
+        state.items.push(...formatted);
+        state.offset += formatted.length;
+    }
+
+    state.fetching = false;
+}
+
+async function loadNextDonePage(state, direction = 'before') {
+    if (state.fetching || state.done) return;
+    state.fetching = true;
+
+    const pageSize = getPageSize(state);
+    const params = new URLSearchParams({
+        limit: String(pageSize)
+    });
+
+    if (direction === 'after' && state.items.length > 0) {
+        const completed = state.items[0].completed;
+        if (completed) {
+            params.set('after', completed);
+        }
+    } else if (direction === 'before' && state.items.length > 0) {
+        const completed = state.items[state.items.length - 1].completed;
+        if (completed) {
+            params.set('before', completed);
+        }
+    }
+
+    const content = await apiFetch(`${state.endpoint}?${params.toString()}`);
+    if (content === null) {
+        state.fetching = false;
+        return;
+    }
+
+    const { items } = normalizeScheduleContent(content);
+    const formatted = formatItems(state.endpoint, items);
+    if (formatted.length === 0) {
+        state.done = true;
+    } else if (direction === 'after') {
+        state.items.unshift(...formatted);
+        state.offset += formatted.length;
     } else {
         state.items.push(...formatted);
         state.offset += formatted.length;
@@ -249,6 +297,7 @@ async function refreshAll() {
         }
     }
 }
+
 function setupRefresh() {
     const selector = document.getElementById('refresh-rate');
 
