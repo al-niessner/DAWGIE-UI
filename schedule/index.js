@@ -253,13 +253,13 @@ async function resetWindow(state) {
     await ensureScrollable(state);
 }
 
-async function reloadWindow(state) {
+async function refreshWindowIfAtTop(state) {
     const container = document.getElementById(state.containerId);
     if (!container) return;
 
-    const targetOffset = state.offset;
-    const targetRendered = state.rendered;
-    const scrollTop = container.scrollTop;
+    if (container.scrollTop > 0) {
+        return;
+    }
 
     state.items = [];
     state.rendered = 0;
@@ -268,32 +268,26 @@ async function reloadWindow(state) {
     state.fetching = false;
     container.innerHTML = '';
 
-    while (state.offset < targetOffset && !state.done) {
-        await loadNextPage(state);
-        while (state.rendered < targetRendered && state.rendered < state.items.length) {
-            renderBatch(state);
-        }
-    }
-
-    while (state.rendered < targetRendered && state.rendered < state.items.length) {
-        renderBatch(state);
-    }
-
-    if (targetRendered === 0 && targetOffset === 0) {
-        await ensureScrollable(state);
-    }
-
-    container.scrollTop = scrollTop;
+    await loadNextPage(state);
+    renderBatch(state);
 }
+
+async function reloadWindow(state) {
+    const container = document.getElementById(state.containerId);
+    if (!container) return;
+
+    const targetOffset = state.offset;
+    const targetRendered = state.rendered;
+    const scrollTop = container.scrollTop;
+
+// ... existing code ...
 
 async function refreshAll() {
     await updateStats();
     for (const [id] of Object.entries(windowConfigs)) {
         const state = windowStates[id];
-        if (!state || (state.offset === 0 && state.rendered === 0)) {
-            await resetWindow(state);
-        } else {
-            await reloadWindow(state);
+        if (state) {
+            await refreshWindowIfAtTop(state);
         }
     }
 }
