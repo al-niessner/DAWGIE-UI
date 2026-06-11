@@ -10,8 +10,32 @@ const windowConfigs = {
 
 const windowStates = {};
 const BATCH_SIZE = 15;
+const DEFAULT_DONE_PAGE_SIZE = 40;
 const PREFETCH_THRESHOLD = 5;
 const SCROLL_THRESHOLD_PX = 60;
+
+function getDonePageSize() {
+    const selector = document.getElementById('done-page-size');
+    const value = parseInt(selector?.value, 10);
+    return Number.isNaN(value) || value <= 0 ? DEFAULT_DONE_PAGE_SIZE : value;
+}
+
+function getPageSize(state) {
+    return state.pageSize ?? BATCH_SIZE;
+}
+
+function isDoneWindow(state) {
+    return state.endpoint === '/api/schedule/succeeded' || state.endpoint === '/api/schedule/failed';
+}
+
+async function resetDoneWindows() {
+    for (const id of ['scroll-succeeded', 'scroll-failed']) {
+        const state = windowStates[id];
+        if (state) {
+            state.pageSize = getDonePageSize();
+            await resetWindow(state);
+        }
+    }
 
 async function updateStats() {
     const stats = await apiFetch('/api/schedule/stats');
@@ -114,7 +138,8 @@ async function loadNextPage(state) {
     if (state.fetching || state.done) return;
     state.fetching = true;
 
-    const url = `${state.endpoint}?index=${state.offset}&limit=${BATCH_SIZE}`;
+    const pageSize = getPageSize(state);
+    const url = `${state.endpoint}?index=${state.offset}&limit=${pageSize}`;
     const content = await apiFetch(url);
     if (content === null) {
         state.fetching = false;
@@ -224,10 +249,9 @@ async function refreshAll() {
         }
     }
 }
-
 function setupRefresh() {
     const selector = document.getElementById('refresh-rate');
-    
+
     const startTimer = () => {
         const rate = parseInt(selector.value);
         if (rate > 0) {
@@ -241,6 +265,13 @@ function setupRefresh() {
     });
 
     startTimer(); // Start an initial timer
+}
+
+function setupDonePageSize() {
+    const selector = document.getElementById('done-page-size');
+    if (!selector) return;
+
+    selector.addEventListener('change', resetDoneWindows);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
