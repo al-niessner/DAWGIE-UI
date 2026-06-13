@@ -272,16 +272,6 @@ async function refreshWindowIfAtTop(state) {
     renderBatch(state);
 }
 
-async function reloadWindow(state) {
-    const container = document.getElementById(state.containerId);
-    if (!container) return;
-
-    const targetOffset = state.offset;
-    const targetRendered = state.rendered;
-    const scrollTop = container.scrollTop;
-
-// ... existing code ...
-
 async function refreshAll() {
     await updateStats();
     for (const [id] of Object.entries(windowConfigs)) {
