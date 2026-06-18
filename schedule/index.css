@@ -70,4 +70,19 @@
     background: #fafafa;
 }
 
+.done-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.done-controls label {
+    font-weight: bold;
+}
+
+.done-controls select {
+    padding: 4px 8px;
+}
+
 /* Removed .side-nav styles */

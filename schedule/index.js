@@ -10,8 +10,33 @@ const windowConfigs = {
 
 const windowStates = {};
 const BATCH_SIZE = 15;
+const DEFAULT_DONE_PAGE_SIZE = 40;
 const PREFETCH_THRESHOLD = 5;
 const SCROLL_THRESHOLD_PX = 60;
+
+function getDonePageSize() {
+    const selector = document.getElementById('done-page-size');
+    const value = parseInt(selector?.value, 10);
+    return Number.isNaN(value) || value <= 0 ? DEFAULT_DONE_PAGE_SIZE : value;
+}
+
+function getPageSize(state) {
+    return state.pageSize ?? BATCH_SIZE;
+}
+
+function isDoneWindow(state) {
+    return state.endpoint === '/api/schedule/succeeded' || state.endpoint === '/api/schedule/failed';
+}
+
+async function resetDoneWindows() {
+    for (const id of ['scroll-succeeded', 'scroll-failed']) {
+        const state = windowStates[id];
+        if (state) {
+            state.pageSize = getDonePageSize();
+            await resetWindow(state);
+        }
+    }
+}
 
 async function updateStats() {
     const stats = await apiFetch('/api/schedule/stats');
@@ -65,7 +90,8 @@ function formatItems(endpoint, items) {
             }
             return {
                 title: titleParts.join('.'),
-                info: infoParts.join('<br>')
+                info: infoParts.join('<br>'),
+                completed
             };
         });
     }
@@ -111,10 +137,15 @@ function isNearBottom(container) {
 }
 
 async function loadNextPage(state) {
+    if (isDoneWindow(state)) {
+        return loadNextDonePage(state);
+    }
+
     if (state.fetching || state.done) return;
     state.fetching = true;
 
-    const url = `${state.endpoint}?index=${state.offset}&limit=${BATCH_SIZE}`;
+    const pageSize = getPageSize(state);
+    const url = `${state.endpoint}?index=${state.offset}&limit=${pageSize}`;
     const content = await apiFetch(url);
     if (content === null) {
         state.fetching = false;
@@ -125,6 +156,48 @@ async function loadNextPage(state) {
     const formatted = formatItems(state.endpoint, items);
     if (formatted.length === 0) {
         state.done = true;
+    } else {
+        state.items.push(...formatted);
+        state.offset += formatted.length;
+    }
+
+    state.fetching = false;
+}
+
+async function loadNextDonePage(state, direction = 'before') {
+    if (state.fetching || state.done) return;
+    state.fetching = true;
+
+    const pageSize = getPageSize(state);
+    const params = new URLSearchParams({
+        limit: String(pageSize)
+    });
+
+    if (direction === 'after' && state.items.length > 0) {
+        const completed = state.items[0].completed;
+        if (completed) {
+            params.set('after', completed);
+        }
+    } else if (direction === 'before' && state.items.length > 0) {
+        const completed = state.items[state.items.length - 1].completed;
+        if (completed) {
+            params.set('before', completed);
+        }
+    }
+
+    const content = await apiFetch(`${state.endpoint}?${params.toString()}`);
+    if (content === null) {
+        state.fetching = false;
+        return;
+    }
+
+    const { items } = normalizeScheduleContent(content);
+    const formatted = formatItems(state.endpoint, items);
+    if (formatted.length === 0) {
+        state.done = true;
+    } else if (direction === 'after') {
+        state.items.unshift(...formatted);
+        state.offset += formatted.length;
     } else {
         state.items.push(...formatted);
         state.offset += formatted.length;
@@ -180,13 +253,13 @@ async function resetWindow(state) {
     await ensureScrollable(state);
 }
 
-async function reloadWindow(state) {
+async function refreshWindowIfAtTop(state) {
     const container = document.getElementById(state.containerId);
     if (!container) return;
 
-    const targetOffset = state.offset;
-    const targetRendered = state.rendered;
-    const scrollTop = container.scrollTop;
+    if (container.scrollTop > 0) {
+        return;
+    }
 
     state.items = [];
     state.rendered = 0;
@@ -195,39 +268,23 @@ async function reloadWindow(state) {
     state.fetching = false;
     container.innerHTML = '';
 
-    while (state.offset < targetOffset && !state.done) {
-        await loadNextPage(state);
-        while (state.rendered < targetRendered && state.rendered < state.items.length) {
-            renderBatch(state);
-        }
-    }
-
-    while (state.rendered < targetRendered && state.rendered < state.items.length) {
-        renderBatch(state);
-    }
-
-    if (targetRendered === 0 && targetOffset === 0) {
-        await ensureScrollable(state);
-    }
-
-    container.scrollTop = scrollTop;
+    await loadNextPage(state);
+    renderBatch(state);
 }
 
 async function refreshAll() {
     await updateStats();
     for (const [id] of Object.entries(windowConfigs)) {
         const state = windowStates[id];
-        if (!state || (state.offset === 0 && state.rendered === 0)) {
-            await resetWindow(state);
-        } else {
-            await reloadWindow(state);
+        if (state) {
+            await refreshWindowIfAtTop(state);
         }
     }
 }
 
 function setupRefresh() {
     const selector = document.getElementById('refresh-rate');
-    
+
     const startTimer = () => {
         const rate = parseInt(selector.value);
         if (rate > 0) {
@@ -241,6 +298,13 @@ function setupRefresh() {
     });
 
     startTimer(); // Start an initial timer
+}
+
+function setupDonePageSize() {
+    const selector = document.getElementById('done-page-size');
+    if (!selector) return;
+
+    selector.addEventListener('change', resetDoneWindows);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
